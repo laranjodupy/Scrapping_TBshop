@@ -29,7 +29,9 @@ app = FastAPI(title="TerabyteShop Scraper API")
 # O valor vem do arquivo .env (veja .env.example neste projeto) — assim
 # você não depende de setar a variável no terminal toda vez, e não precisa
 # lembrar se já reiniciou o uvicorn depois de mudar o valor no terminal.
-N8N_WEBHOOK_URL = os.environ.get("N8N_WEBHOOK_URL", "")
+N8N_GETHOOK = os.environ.get("N8N_WEBHOOK_URL", "")
+
+N8N_WEBHOOK_URL = f"http://localhost:5678/webhook/{N8N_GETHOOK}"
 
 
 def scrape_and_send() -> dict:
