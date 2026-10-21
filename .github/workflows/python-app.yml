@@ -1,0 +1,26 @@
+name: Scraper TerabyteShop -> n8n
+
+on:
+  schedule:
+    - cron: "17 * * * *"   # a cada hora, no minuto 0 (horário UTC)
+  workflow_dispatch: {}     # permite rodar manualmente pela aba Actions do GitHub
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: Rodar o scraping e enviar para o n8n
+        run: python run_once.py
+        env:
+          N8N_WEBHOOK_URL: ${{ secrets.N8N_WEBHOOK_URL }}
